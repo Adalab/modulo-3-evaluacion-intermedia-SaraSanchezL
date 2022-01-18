@@ -73,6 +73,7 @@ function App() {
        </tbody>
 </table>
 
+<h2 className="title">Añadir una  nueva adalaber</h2>
 <form onSubmit={handleSubmit} className="form" action="">
   <label className="label" htmlFor="name">Nombre</label>
   <input className="input" type="text" name="name" id="name" value={newAdalaber.name} onChange={handleInputAdd}/>
