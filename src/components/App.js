@@ -28,6 +28,7 @@ function App() {
       [ev.currentTarget.id]: ev.currentTarget.value,
     });
   };
+
   const handleAddBtn = (ev) => {
     ev.preventDefault();
     if (newAdalaber.name !== '') {
@@ -43,7 +44,6 @@ function App() {
         counselor: '',
         speciality: ''
       });
-
     };
 
  // Para key, en vez de id utilizamos index, al añadir datos nuevos utilizaran este index como key.
@@ -57,11 +57,14 @@ function App() {
 );
 
 
-
   return (
     <div className="App">
-      <h1 className="title">Adalabers</h1>
-      <main>
+
+      <head>
+        <h1 className="title">Adalabers</h1>
+      </head>
+
+ <main>
       <table className="table">
  <thead><tr>
  <th className="eachTh"> Nombre</th>
@@ -74,6 +77,7 @@ function App() {
 </table>
 
 <h2 className="title">Añadir una  nueva adalaber</h2>
+
 <form onSubmit={handleSubmit} className="form" action="">
   <label className="label" htmlFor="name">Nombre</label>
   <input className="input" type="text" name="name" id="name" value={newAdalaber.name} onChange={handleInputAdd}/>
@@ -83,8 +87,8 @@ function App() {
   <input className="input" type="text" name="speciality" id="speciality" value={newAdalaber.speciality} onChange={handleInputAdd}/>
   <button className="btnAdd" onClick={handleAddBtn}>Añadir nueva Adalaber</button>
 </form>
-       </main>
-
+      
+ </main>
     </div>
   );
 }
