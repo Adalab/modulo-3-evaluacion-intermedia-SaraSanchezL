@@ -1,8 +1,6 @@
 import '../styles/App.scss';
 import {useState, useEffect} from 'react';
 import callToApi from '../services/api'
-//import ls from '../services/localStorage'
-
 
 
 function App() {
