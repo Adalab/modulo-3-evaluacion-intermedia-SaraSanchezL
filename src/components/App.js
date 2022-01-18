@@ -1,23 +1,20 @@
-import '../styles/App.scss';
-import {useState, useEffect} from 'react';
-import callToApi from '../services/api'
-//import ls from '../services/localStorage'
-
-
+import "../styles/App.scss";
+import { useState, useEffect } from "react";
+import callToApi from "../services/api";
 
 function App() {
-
+  
   const [data, setData] = useState([]);
   const [newAdalaber, setNewAdalaber] = useState({
-    name: '',
-    counselor: '',
-    speciality: '',
-  })
-  const [search, setSearch] = useState('');
-  const [optionSelected, setOptionSelected] = useState('cualquiera');
+    name: "",
+    counselor: "",
+    speciality: "",
+  });
+  const [search, setSearch] = useState("");
+  const [optionSelected, setOptionSelected] = useState('Cualquiera');
 
   useEffect(() => {
-    callToApi().then(response => {
+    callToApi().then((response) => {
       setData(response);
     });
   }, []);
@@ -26,10 +23,10 @@ function App() {
 
   const handleSearchInput = (ev) => {
     setSearch(ev.currentTarget.value);
-  }
+  };
   const handleSelect = (ev) => {
     setOptionSelected(ev.currentTarget.value);
-  }
+  };
 
   const handleInputAdd = (ev) => {
     setNewAdalaber({
@@ -39,77 +36,134 @@ function App() {
   };
   const handleAddBtn = (ev) => {
     ev.preventDefault();
-    if (newAdalaber.name !== '') {
-        setData([...data, newAdalaber]);
+    if (newAdalaber.name !== "") {
+      setData([...data, newAdalaber]);
       setNewAdalaber({
-        name: '',
-        counselor: '',
-        speciality: ''
+        name: "",
+        counselor: "",
+        speciality: "",
       });
-    } 
-      setNewAdalaber({
-        name: '',
-        counselor: '',
-        speciality: ''
-      });
+    }
+    setNewAdalaber({
+      name: "",
+      counselor: "",
+      speciality: "",
+    });
+  };
 
-    };
+  const handleResetBtn = (ev) => {
+    ev.preventDefault();
+    setOptionSelected('Cualquiera');
+    setSearch('');
+  }
 
- // Para key, en vez de id utilizamos index, al añadir datos nuevos utilizaran este index como key.
+  // Para key, en vez de id utilizamos index, al añadir datos nuevos utilizaran este index como key.
   const renderTable = data
-  .filter(
-    (oneAdalaber) =>
-    oneAdalaber.name.toLowerCase().includes(search.toLowerCase()) ||
-    oneAdalaber.counselor.toLowerCase().includes(search.toLowerCase())
-  )
-  /* .filter (
-    (oneAdalaber) => 
-  ) */
-    .map((adalaber, index) => 
- <tr key={index}>
- <td className="eachTd">{adalaber.name}</td>
- <td className="eachTd">{adalaber.counselor}</td>
- <td className="eachTd">{adalaber.speciality}</td>
- </tr>
-);
+    .filter(
+      (oneAdalaber) =>
+        oneAdalaber.name.toLowerCase().includes(search.toLowerCase())
+    )
+    .filter((eachAdalaber) => optionSelected==='Cualquiera' || optionSelected === eachAdalaber.counselor )
 
-
+    .map((adalaber, index) => (
+      <tr key={adalaber.id || index}>
+        <td className="eachTd">{adalaber.name}</td>
+        <td className="eachTd">{adalaber.counselor}</td>
+        <td className="eachTd">{adalaber.speciality}</td>
+      </tr>
+    ));
 
   return (
     <div className="App">
-      <h1 className="title">Adalabers</h1>
+
+      <header>
+        <h1 className="title">Adalabers</h1>
+      </header>
+
       <main>
         <form onSubmit={handleSubmit} action="">
-          <input type="text" name="search" id="search" placeholder="Buscar..." value={search} onChange={handleSearchInput}/>
-          <select name="selectCounselor" id="selectCounselor" onChange={handleSelect} value={optionSelected}>
-            <option value="cualquiera" disabled defaultValue>Cualquiera</option>
-            <option value="yanelis">Yanelis</option>
-            <option value="dayana">Dayana</option>
-            <option value="ivan">Ivan</option>
+          <input
+            type="text"
+            name="search"
+            id="search"
+            placeholder="Buscar por nombre..."
+            value={search}
+            onChange={handleSearchInput}
+          />
+          <label className="label" htmlFor="selectCounselor">Selecciona tutor/a</label>
+          <select
+            name="selectCounselor"
+            id="selectCounselor"
+            onChange={handleSelect}
+            value={optionSelected}
+          >
+            <option value="Cualquiera" disabled defaultValue>
+              Cualquiera
+            </option>
+            <option value="Yanelis">Yanelis</option>
+            <option value="Dayana">Dayana</option>
+            <option value="Iván">Iván</option>
           </select>
+
+          <button className="btnReset" onClick={handleResetBtn}>Reset</button>
         </form>
-      <table className="table">
- <thead><tr>
- <th className="eachTh"> Nombre</th>
- <th className="eachTh"> Tutora</th>
- <th className="eachTh"> Especialidad</th>
- </tr></thead>
- <tbody>
-       {renderTable}    
-       </tbody>
-</table>
 
-<form onSubmit={handleSubmit} className="form" action="">
-  <label className="label" htmlFor="name">Nombre</label>
-  <input className="input" type="text" name="name" id="name" placeholder="Nombre..."value={newAdalaber.name} onChange={handleInputAdd}/>
-  <label className="label" htmlFor="counselor">Tutor</label>
-  <input className="input" type="text" name="counselor" id="counselor" placeholder="Tutora..." value={newAdalaber.counselor} onChange={handleInputAdd}/>
-  <label className="label" htmlFor="speciality">Especialidad</label>
-  <input className="input" type="text" name="speciality" id="speciality" placeholder="Especialidad..."value={newAdalaber.speciality} onChange={handleInputAdd}/>
-  <button className="btnAdd" onClick={handleAddBtn}>Añadir nueva Adalaber</button>
-</form>
-       </main>
+        <table className="table">
+          <thead>
+            <tr>
+              <th className="eachTh"> Nombre</th>
+              <th className="eachTh"> Tutora</th>
+              <th className="eachTh"> Especialidad</th>
+              <th className="eachTh"> Red Social</th>
+            </tr>
+          </thead>
+          <tbody>{renderTable}</tbody>
+        </table>
 
+        <h2 className="title">Añadir nueva Adalaber</h2>
+
+        <form onSubmit={handleSubmit} className="form" action="">
+          <label className="label" htmlFor="name">
+            Nombre
+          </label>
+          <input
+            className="input"
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Nombre..."
+            value={newAdalaber.name}
+            onChange={handleInputAdd}
+          />
+          <label className="label" htmlFor="counselor">
+            Tutor/a
+          </label>
+          <input
+            className="input"
+            type="text"
+            name="counselor"
+            id="counselor"
+            placeholder="Tutora..."
+            value={newAdalaber.counselor}
+            onChange={handleInputAdd}
+          />
+          <label className="label" htmlFor="speciality">
+            Especialidad
+          </label>
+          <input
+            className="input"
+            type="text"
+            name="speciality"
+            id="speciality"
+            placeholder="Especialidad..."
+            value={newAdalaber.speciality}
+            onChange={handleInputAdd}
+          />
+          <button className="btnAdd" onClick={handleAddBtn}>
+            Añadir nueva Adalaber
+          </button>
+        </form>
+      </main>
     </div>
   );
 }
