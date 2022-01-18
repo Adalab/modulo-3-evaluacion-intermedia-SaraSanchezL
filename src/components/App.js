@@ -1,19 +1,26 @@
 import '../styles/App.scss';
-import {useState} from 'react';
-import dataApi from '../data/data.json'
+import {useState, useEffect} from 'react';
+import callToApi from '../services/api'
 //import ls from '../services/localStorage'
-//import DataApi from '../services/api'
+
 
 
 function App() {
 
-  const [data, setData] = useState(dataApi.results);
+  const [data, setData] = useState([]);
   const [newAdalaber, setNewAdalaber] = useState({
     name: '',
     counselor: '',
     speciality: '',
   })
 
+  useEffect(() => {
+    callToApi().then(response => {
+      setData(response);
+    });
+  }, []);
+
+  const handleSubmit = (ev) => ev.preventDefault();
 
   const handleInputAdd = (ev) => {
     setNewAdalaber({
@@ -23,21 +30,29 @@ function App() {
   };
   const handleAddBtn = (ev) => {
     ev.preventDefault();
-      setData([...data, newAdalaber]);
+    if (newAdalaber.name !== '') {
+        setData([...data, newAdalaber]);
       setNewAdalaber({
         name: '',
         counselor: '',
         speciality: ''
       });
+    } 
+      setNewAdalaber({
+        name: '',
+        counselor: '',
+        speciality: ''
+      });
+
     };
 
  // Para key, en vez de id utilizamos index, al añadir datos nuevos utilizaran este index como key.
   const renderTable =
     data.map((adalaber, index) => 
  <tr key={index}>
- <td>{adalaber.name}</td>
- <td>{adalaber.counselor}</td>
- <td>{adalaber.speciality}</td>
+ <td className="eachTd">{adalaber.name}</td>
+ <td className="eachTd">{adalaber.counselor}</td>
+ <td className="eachTd">{adalaber.speciality}</td>
  </tr>
 );
 
@@ -45,27 +60,27 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Adalabers</h1>
+      <h1 className="title">Adalabers</h1>
       <main>
-      <table>
+      <table className="table">
  <thead><tr>
- <th>Nombre</th>
- <th>Tutora</th>
- <th>Especialidad</th>
+ <th className="eachTh"> Nombre</th>
+ <th className="eachTh"> Tutora</th>
+ <th className="eachTh"> Especialidad</th>
  </tr></thead>
  <tbody>
        {renderTable}    
        </tbody>
 </table>
 
-<form action="">
-  <label htmlFor="name">Nombre</label>
-  <input type="text" name="name" id="name" value={newAdalaber.name} onChange={handleInputAdd}/>
-  <label htmlFor="counselor">Tutor</label>
-  <input type="text" name="counselor" id="counselor" value={newAdalaber.counselor} onChange={handleInputAdd}/>
-  <label htmlFor="speciality">Especialidad</label>
-  <input type="text" name="speciality" id="speciality" value={newAdalaber.speciality} onChange={handleInputAdd}/>
-  <button onClick={handleAddBtn}>Añadir nueva Adalaber</button>
+<form onSubmit={handleSubmit} className="form" action="">
+  <label className="label" htmlFor="name">Nombre</label>
+  <input className="input" type="text" name="name" id="name" value={newAdalaber.name} onChange={handleInputAdd}/>
+  <label className="label" htmlFor="counselor">Tutor</label>
+  <input className="input" type="text" name="counselor" id="counselor" value={newAdalaber.counselor} onChange={handleInputAdd}/>
+  <label className="label" htmlFor="speciality">Especialidad</label>
+  <input className="input" type="text" name="speciality" id="speciality" value={newAdalaber.speciality} onChange={handleInputAdd}/>
+  <button className="btnAdd" onClick={handleAddBtn}>Añadir nueva Adalaber</button>
 </form>
        </main>
 
