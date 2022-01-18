@@ -13,6 +13,8 @@ function App() {
     counselor: '',
     speciality: '',
   })
+  const [search, setSearch] = useState('');
+  const [optionSelected, setOptionSelected] = useState('cualquiera');
 
   useEffect(() => {
     callToApi().then(response => {
@@ -21,6 +23,13 @@ function App() {
   }, []);
 
   const handleSubmit = (ev) => ev.preventDefault();
+
+  const handleSearchInput = (ev) => {
+    setSearch(ev.currentTarget.value);
+  }
+  const handleSelect = (ev) => {
+    setOptionSelected(ev.currentTarget.value);
+  }
 
   const handleInputAdd = (ev) => {
     setNewAdalaber({
@@ -47,8 +56,16 @@ function App() {
     };
 
  // Para key, en vez de id utilizamos index, al añadir datos nuevos utilizaran este index como key.
-  const renderTable =
-    data.map((adalaber, index) => 
+  const renderTable = data
+  .filter(
+    (oneAdalaber) =>
+    oneAdalaber.name.toLowerCase().includes(search.toLowerCase()) ||
+    oneAdalaber.counselor.toLowerCase().includes(search.toLowerCase())
+  )
+  /* .filter (
+    (oneAdalaber) => 
+  ) */
+    .map((adalaber, index) => 
  <tr key={index}>
  <td className="eachTd">{adalaber.name}</td>
  <td className="eachTd">{adalaber.counselor}</td>
@@ -62,6 +79,15 @@ function App() {
     <div className="App">
       <h1 className="title">Adalabers</h1>
       <main>
+        <form onSubmit={handleSubmit} action="">
+          <input type="text" name="search" id="search" placeholder="Buscar..." value={search} onChange={handleSearchInput}/>
+          <select name="selectCounselor" id="selectCounselor" onChange={handleSelect} value={optionSelected}>
+            <option value="cualquiera" disabled defaultValue>Cualquiera</option>
+            <option value="yanelis">Yanelis</option>
+            <option value="dayana">Dayana</option>
+            <option value="ivan">Ivan</option>
+          </select>
+        </form>
       <table className="table">
  <thead><tr>
  <th className="eachTh"> Nombre</th>
@@ -75,11 +101,11 @@ function App() {
 
 <form onSubmit={handleSubmit} className="form" action="">
   <label className="label" htmlFor="name">Nombre</label>
-  <input className="input" type="text" name="name" id="name" value={newAdalaber.name} onChange={handleInputAdd}/>
+  <input className="input" type="text" name="name" id="name" placeholder="Nombre..."value={newAdalaber.name} onChange={handleInputAdd}/>
   <label className="label" htmlFor="counselor">Tutor</label>
-  <input className="input" type="text" name="counselor" id="counselor" value={newAdalaber.counselor} onChange={handleInputAdd}/>
+  <input className="input" type="text" name="counselor" id="counselor" placeholder="Tutora..." value={newAdalaber.counselor} onChange={handleInputAdd}/>
   <label className="label" htmlFor="speciality">Especialidad</label>
-  <input className="input" type="text" name="speciality" id="speciality" value={newAdalaber.speciality} onChange={handleInputAdd}/>
+  <input className="input" type="text" name="speciality" id="speciality" placeholder="Especialidad..."value={newAdalaber.speciality} onChange={handleInputAdd}/>
   <button className="btnAdd" onClick={handleAddBtn}>Añadir nueva Adalaber</button>
 </form>
        </main>
