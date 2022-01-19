@@ -8,7 +8,7 @@ function App() {
     name: "",
     counselor: "",
     speciality: "",
-    social_networks: []
+    social_networks: [],
   });
   const [search, setSearch] = useState("");
   const [optionSelected, setOptionSelected] = useState("Cualquiera");
@@ -42,14 +42,14 @@ function App() {
         name: "",
         counselor: "",
         speciality: "",
-        social_networks: []
+        social_networks: [],
       });
     }
     setNewAdalaber({
       name: "",
       counselor: "",
       speciality: "",
-      social_networks: []
+      social_networks: [],
     });
   };
 
@@ -74,8 +74,18 @@ function App() {
         <td className="eachTd">{adalaber.name}</td>
         <td className="eachTd">{adalaber.counselor}</td>
         <td className="eachTd">{adalaber.speciality}</td>
-        {adalaber.social_networks.map((eachNetwork, index) => 
-         <td className="eachTd" key={index}><a className="link" href={eachNetwork.url} rel="noreferrer" target="_blank">{eachNetwork.name}</a></td>)}
+        {adalaber.social_networks.map((eachNetwork, index) => (
+          <td className="eachTd" key={index}>
+            <a
+              className="link"
+              href={eachNetwork.url}
+              rel="noreferrer"
+              target="_blank"
+            >
+              {eachNetwork.name}
+            </a>
+          </td>
+        ))}
       </tr>
     ));
 
@@ -87,7 +97,9 @@ function App() {
 
       <main>
         <form onSubmit={handleSubmit} action="">
-          <label htmlFor="search" className="label">Buscar por Nombre:</label>
+          <label htmlFor="search" className="label">
+            Buscar por Nombre:
+          </label>
           <input
             type="text"
             name="search"
