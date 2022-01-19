@@ -1,6 +1,12 @@
-
 .title {
   color: darkcyan;
+  background-color: lightcyan;
+  text-align: center;
+}
+.titleAdd {
+  color: darkcyan;
+  background-color: lightgreen;
+  width: 16vw;
 }
 
 .form {
@@ -26,7 +32,7 @@
   font-weight: bold;
 }
 .btnReset {
-  margin-left: 15px;
+  margin: 0 0 15px 15px;
   width: 80px;
   height: 30px;
   background-color: lightblue;
@@ -35,8 +41,9 @@
 }
 .table {
   border: solid 2px black;
-  width: 100%;
+  width: 98vw;
   text-align: left;
+  background-color: lightblue;
 }
 
 .eachTh {
@@ -44,6 +51,12 @@
   border-bottom: solid 1px black;
   background-color: darkslategray;
 }
+
 .eachTd {
   color: lightslategray;
+  padding: 5px;
+}
+
+.link {
+  color: darkred;
 }

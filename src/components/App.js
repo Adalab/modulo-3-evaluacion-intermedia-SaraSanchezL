@@ -3,15 +3,15 @@ import { useState, useEffect } from "react";
 import callToApi from "../services/api";
 
 function App() {
-  
   const [data, setData] = useState([]);
   const [newAdalaber, setNewAdalaber] = useState({
     name: "",
     counselor: "",
     speciality: "",
+    social_networks: []
   });
   const [search, setSearch] = useState("");
-  const [optionSelected, setOptionSelected] = useState('Cualquiera');
+  const [optionSelected, setOptionSelected] = useState("Cualquiera");
 
   useEffect(() => {
     callToApi().then((response) => {
@@ -42,55 +42,63 @@ function App() {
         name: "",
         counselor: "",
         speciality: "",
+        social_networks: []
       });
     }
     setNewAdalaber({
       name: "",
       counselor: "",
       speciality: "",
+      social_networks: []
     });
   };
 
   const handleResetBtn = (ev) => {
     ev.preventDefault();
-    setOptionSelected('Cualquiera');
-    setSearch('');
-  }
+    setOptionSelected("Cualquiera");
+    setSearch("");
+  };
 
-  // Para key, en vez de id utilizamos index, al añadir datos nuevos utilizaran este index como key.
   const renderTable = data
-    .filter(
-      (oneAdalaber) =>
-        oneAdalaber.name.toLowerCase().includes(search.toLowerCase())
+    .filter((oneAdalaber) =>
+      oneAdalaber.name.toLowerCase().includes(search.toLowerCase())
     )
-    .filter((eachAdalaber) => optionSelected==='Cualquiera' || optionSelected === eachAdalaber.counselor )
+    .filter(
+      (eachAdalaber) =>
+        optionSelected === "Cualquiera" ||
+        optionSelected === eachAdalaber.counselor
+    )
 
     .map((adalaber, index) => (
       <tr key={adalaber.id || index}>
         <td className="eachTd">{adalaber.name}</td>
         <td className="eachTd">{adalaber.counselor}</td>
         <td className="eachTd">{adalaber.speciality}</td>
+        {adalaber.social_networks.map((eachNetwork, index) => 
+         <td className="eachTd" key={index}><a className="link" href={eachNetwork.url} rel="noreferrer" target="_blank">{eachNetwork.name}</a></td>)}
       </tr>
     ));
 
   return (
     <div className="App">
-
       <header>
         <h1 className="title">Adalabers</h1>
       </header>
 
       <main>
         <form onSubmit={handleSubmit} action="">
+          <label htmlFor="search" className="label">Buscar por Nombre:</label>
           <input
             type="text"
             name="search"
             id="search"
-            placeholder="Buscar por nombre..."
+            placeholder="Ej: MariCarmen"
             value={search}
             onChange={handleSearchInput}
           />
-          <label className="label" htmlFor="selectCounselor">Selecciona tutor/a</label>
+          <label className="label" htmlFor="selectCounselor">
+            Selecciona Tutor/a:
+          </label>
           <select
             name="selectCounselor"
             id="selectCounselor"
@@ -105,7 +113,9 @@ function App() {
             <option value="Iván">Iván</option>
           </select>
 
-          <button className="btnReset" onClick={handleResetBtn}>Reset</button>
+          <button className="btnReset" onClick={handleResetBtn}>
+            Reset
+          </button>
         </form>
 
         <table className="table">
@@ -120,7 +130,7 @@ function App() {
           <tbody>{renderTable}</tbody>
         </table>
 
-        <h2 className="title">Añadir nueva Adalaber</h2>
+        <h2 className="titleAdd">Añadir nueva Adalaber</h2>
 
         <form onSubmit={handleSubmit} className="form" action="">
           <label className="label" htmlFor="name">
