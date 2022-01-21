@@ -151,6 +151,7 @@ function App() {
             placeholder="Nombre..."
             value={newAdalaber.name}
             onChange={handleInputAdd}
+            required
           />
           <label className="label" htmlFor="counselor">
             Tutor/a
