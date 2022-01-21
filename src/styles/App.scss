@@ -1,6 +1,12 @@
-/* Mis estilos para App */
 .title {
   color: darkcyan;
+  background-color: lightcyan;
+  text-align: center;
+}
+.titleAdd {
+  color: darkcyan;
+  background-color: lightgreen;
+  width: 16vw;
 }
 
 .form {
@@ -15,23 +21,42 @@
 }
 .label {
   color: lightseagreen;
+  margin: 10px;
 }
 .btnAdd {
-  width: 100px;
-  height: 50px;
+  width: 200px;
+  height: 30px;
   background-color: lightblue;
+  color: darkmagenta;
   border-radius: 25%;
+  font-weight: bold;
+}
+.btnReset {
+  margin: 0 0 15px 15px;
+  width: 80px;
+  height: 30px;
+  background-color: lightblue;
+  color: darkmagenta;
+  font-weight: bold;
 }
 .table {
   border: solid 2px black;
-  width: 100%;
+  width: 98vw;
   text-align: left;
+  background-color: lightblue;
 }
 
 .eachTh {
   color: lightsalmon;
   border-bottom: solid 1px black;
+  background-color: darkslategray;
 }
+
 .eachTd {
   color: lightslategray;
+  padding: 5px;
+}
+
+.link {
+  color: darkred;
 }
