@@ -1,23 +1,33 @@
 import "../styles/App.scss";
 import { useState, useEffect } from "react";
-import callToApi from "../services/api";
+import adalabers from "../data/adalabers";
+import ls from "../services/localStorage";
+//import callToApi from "../services/api";
 
 function App() {
-  const [data, setData] = useState([]);
-  const [newAdalaber, setNewAdalaber] = useState({
-    name: "",
-    counselor: "",
-    speciality: "",
-    social_networks: [],
-  });
+  const [data, setData] = useState(ls.get("adalabers", adalabers.results));
+  const [newAdalaber, setNewAdalaber] = useState(
+    ls.get("newAdalaber", {
+      name: "",
+      counselor: "",
+      speciality: "",
+      social_networks: [],
+    })
+  );
   const [search, setSearch] = useState("");
   const [optionSelected, setOptionSelected] = useState("Cualquiera");
 
-  useEffect(() => {
+  /* API
+    useEffect(() => {
     callToApi().then((response) => {
       setData(response);
     });
-  }, []);
+  }, []); */
+
+  useEffect(() => {
+    ls.set("adalabers", data);
+    ls.set("newAdalaber", newAdalaber);
+  }, [data, newAdalaber]);
 
   const handleSubmit = (ev) => ev.preventDefault();
 
@@ -137,11 +147,11 @@ function App() {
           <tbody>{renderTable}</tbody>
         </table>
 
-        <h2 className="titleAdd">Añadir nueva Adalaber</h2>
+        <h2 className="titleAdd">Añadir nueva alumna</h2>
 
         <form onSubmit={handleSubmit} className="form" action="">
           <label className="label" htmlFor="name">
-            Nombre
+            Nombre*
           </label>
           <input
             className="input"
