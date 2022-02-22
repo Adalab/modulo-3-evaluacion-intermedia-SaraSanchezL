@@ -65,6 +65,6 @@ Para filtrar por nombre:
 ### Mejoras A Realizar :
 
 - Guardar el listado y las nuevas alumnas en el local storage.
-- Revisar funcionamiento condicionales y código repetido.
+- Revisar funcionamiento de condicionales y posible código repetido.
 - Identar código.
 - Revisar metadatos en index.html
